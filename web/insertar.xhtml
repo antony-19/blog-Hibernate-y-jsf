@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>BLOG ISC</title>
+        <link href="css/clean-blog.min.css" rel="stylesheet"></link>
+        <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"></link>
+        <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'></link>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'></link>
+    </h:head>
+    <h:body>
+        <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <h:form id="formuno">
+                                <h:commandLink value="perfil" action="perfil" style="opacity: 52"/>
+                                </h:form>
+                            </li>
+                            <li>
+                                <h:form id="formunos">
+                                <h:commandLink value="Inicio" action="consultar" style="opacity: 52"/>
+                                </h:form>
+                            </li>
+                            <li>
+                                <a href="acerca.html">Acerca de</a>
+                            </li>
+                            <li>
+                                <a href="cerrarsesion.html">Cerrar sesion</a>
+                            </li>
+                        </ul>
+                    </div>
+                
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+
+        <!-- Page Header -->
+        <!-- Set your background image for this header on the line below. -->
+
+        <header class="intro-header" style="background-color: darkblue  ">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        <div class="site-heading">
+                            <h1>Blog de Ingerieria en Sistemas Computacionales </h1>
+                            <hr class="small"></hr>
+                            <span class="subheading">Compartiendo conocimiento</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <h:form id="formMostrarPost" >
+            <p:dataList id="mostrar" var="pos" value="#{postBean.listar}">
+                <h:commandLink value="#{pos.post}" action="posting" style="opacity: 52"/>
+                <h:outputText value="#{pos.descripcion}"/>
+            </p:dataList>
+        </h:form>
+        <p:separator/>
+        <h:form>
+            <ul >
+                <li>
+                    <a href="#">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </h:form>
+
+        <h:form>
+            <h:outputText value="Copyright &copy; Instituto Tecnológico Superior del Occidente del Estado de Hidalgo 2016"/>
+        </h:form>
+    </h:body>
+</html>
+

@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>BLOG ISC</title>
+        <link href="css/clean-blog.min.css" rel="stylesheet"></link>
+        <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"></link>
+        <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'></link>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'></link>
+    </h:head>
+    <h:body>
+        <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <h:form id="uno">
+                            <h:commandLink value="perfil" action="perfil" style="opacity: 52"/>
+                            </h:form>
+                        </li>
+                        <li>
+                            <h:form id="dos">
+                             <h:commandLink value="Inicio" action="consultar" style="opacity: 52"/>
+                            </h:form>
+                        </li>
+                        <li>
+                            <a href="post.html">Acerca de</a>
+                        </li>
+                        <li>
+                            <a href="contact.html">Cerrar Sesion </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+
+        <!-- Page Header -->
+        <!-- Set your background image for this header on the line below. -->
+
+        <header class="intro-header" style="background-color: darkblue  ">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        <div class="site-heading">
+                            <h1>Perfil </h1>
+                            <hr class="small"></hr>
+                            <span class="subheading">Maneja tus post</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+        <h:form id="formnuevopost">
+            <p:panelGrid columns="1" style="margin: 0 auto">
+                <p:commandButton id="btninsertar" actionListener="#{postBean.prepararnuevoPost(actionEventen)}" value="Nuevo post" oncomplete="PF('dlgNuevo').show();" update=":formInsertar"/>
+            </p:panelGrid>
+        </h:form>
+        
+         <p:growl id="mensajeGeneral" autoUpdate="true" showDetail="true" life="3000"/>
+
+        <p:dialog id="dlgn" header="Nuevo Post"  widgetVar="dlgNuevo" showEffect="explode"
+                  hideEffect="explode" modal="true">
+
+            <h:form id="formInsertar">
+                <p:panelGrid columns="2" style="margin: 0 auto">
+                    <p:outputLabel value="post"/>
+                    <p:inputText value="#{postBean.post.post}"
+                                 required="true" requiredMessage="Escribe el nombre del post"/>
+                    <p:outputLabel value="descripcion"/>
+                    <p:inputText value="#{postBean.post.descripcion}"
+                                 required="true" requiredMessage="Escribe la descripcion del post"/>
+                    <p:outputLabel value="contenido"/>
+                    <p:inputText value="#{postBean.post.contenido}"
+                                 required="true" requiredMessage="Escribe el contenido del post"/>
+                    <p:outputLabel value="img"/>
+                    <p:inputText value="#{postBean.post.img}"
+                                 required="true" requiredMessage="Escribe el nombre del post"/>
+                    <p:outputLabel value="fecha"/>
+                    <p:inputText value="#{postBean.post.fecha}"
+                                 required="true" requiredMessage="Escribe la fecha del post AAAA/MM/DD"/>
+
+                    <p:commandButton value="Guardar" actionListener="#{postBean.nuevoPost()}" 
+                                     update=":formMostrarPost:tablaMostrarPost"
+                                     oncomplete="PF('dlgNuevo').hide();"/>
+                    <p:commandButton value="Cancelar" actionListener="#{postBean.cancelar()}" update=":formInsertar"
+                                     immediate="true" onclick="PF('dlgNuevo').hide();"/>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <p:separator/>
+
+        <h:form id="formMostrarPost">
+            <p:dataTable id="tablaMostrarPost" var="pos" value="#{postBean.listar}" emptyMessage="no hay post">
+                <p:column headerText="post">
+                    <h:outputText value="#{pos.post}"/>
+                </p:column>
+
+                <p:column headerText="descripcion">
+                    <h:outputText value="#{pos.descripcion}"/>
+                </p:column>
+
+                <p:column>
+                    <p:commandButton value="Modificar" oncomplete="PF('dlgModificar').show();" 
+                                     update=":formModificar">
+                        <f:setPropertyActionListener target="#{postBean.post}" value="#{pos}"/>
+
+                    </p:commandButton>
+                </p:column>
+
+                <p:column>
+                    <p:commandButton value="Eliminar" oncomplete="PF('dlgEliminar').show();" 
+                                     update=":formEliminar">
+                        <f:setPropertyActionListener target="#{postBean.post}" value="#{pos}"/>
+
+                    </p:commandButton>
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+
+        <p:dialog id="dlg" header="Modificar datos" widgetVar="dlgModificar" showEffect="explode"
+                  hideEffect="explode" modal="true">
+            <h:form id="formModificar">
+                <p:panelGrid columns="2" style="margin: 0 auto">
+                    <p:outputLabel value="post"/>
+                    <p:inputText value="#{postBean.post.post}"
+                                 required="true" requiredMessage="Escribe el nombre del post"/>
+                    <p:outputLabel value="descripcion"/>
+                    <p:inputText value="#{postBean.post.descripcion}"
+                                 required="true" requiredMessage="Escribe la descripcion del post"/>
+                    <p:outputLabel value="contenido"/>
+                    <p:inputText value="#{postBean.post.contenido}"
+                                 required="true" requiredMessage="Escribe el contenido del post"/>
+                    <p:outputLabel value="img"/>
+                    <p:inputText value="#{postBean.post.img}"
+                                 required="true" requiredMessage="Escribe el nombre del post"/>
+                    <p:outputLabel value="fecha"/>
+                    <p:inputText value="#{postBean.post.fecha}"
+                                 required="true" requiredMessage="Escribe la fecha del post AAAA/MM/DD"/>
+
+                    <p:commandButton value="Guardar cambios" actionListener="#{postBean.modificarPost()}" 
+                                     update=":formMostrarPost:tablaMostrarPost"
+                                     oncomplete="PF('dlgModificar').hide();"/>
+                    <p:commandButton value="Cancelar" onclick="PF('dlgModificar').hide();"
+                                     immediate="true"/>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog id="dlg2" header="Eliminar datos" widgetVar="dlgEliminar" showEffect="explode"
+                  hideEffect="explode" modal="true">
+            <h:form id="formEliminar">
+                <h:outputText value="Desea Eliminar este registro"/>
+                <p:commandButton value="SI"  actionListener="#{postBean.eliminarPost()}"
+                                 update=":formMostrarPost" oncomplete="PF('dlgEliminar').hide();"/>
+                <p:commandButton value="NO" onclick="PF('dlgEliminar').hide();" />
+            </h:form>
+        </p:dialog>
+
+        <h:form>
+            <ul >
+                <li>
+                    <a href="#">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </h:form>
+
+        <h:form>
+            <h:outputText value="Copyright &copy; Instituto Tecnológico Superior del Occidente del Estado de Hidalgo 2016"/>
+        </h:form>
+
+
+    </h:body>
+</html>
+
